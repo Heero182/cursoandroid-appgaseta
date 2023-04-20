@@ -11,10 +11,12 @@ import android.widget.Toast;
 
 import devandroid.heero.appgaseta.R;
 import devandroid.heero.appgaseta.apoio.UtilGasEta;
+import devandroid.heero.appgaseta.controller.CombustivelController;
 import devandroid.heero.appgaseta.model.Combustivel;
 
 public class GasEtaActivity extends AppCompatActivity {
 
+    CombustivelController combustivelController;
     EditText editGasolina;
     EditText editEtanol;
 
@@ -27,6 +29,7 @@ public class GasEtaActivity extends AppCompatActivity {
     private double precoGasolina;
     private double precoEtanol;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,10 +39,11 @@ public class GasEtaActivity extends AppCompatActivity {
         editEtanol = findViewById(R.id.editEtanol);
         btnCalcular = findViewById(R.id.btnCalcular);
         btnSalvar = findViewById(R.id.btnSalvar);
-        btnSalvar.setEnabled(false);
         btnLimpar = findViewById(R.id.btnLimpar);
         btnFinalizar = findViewById(R.id.btnFinalizar);
         txtResultado = findViewById(R.id.txtResultado);
+
+        combustivelController = new CombustivelController(GasEtaActivity.this);
 
         btnCalcular.setOnClickListener(v -> {
             btnSalvar.setEnabled(false);
@@ -75,6 +79,9 @@ public class GasEtaActivity extends AppCompatActivity {
             editGasolina.setText("");
             editEtanol.setText("");
             txtResultado.setText(R.string.txt_resultado);
+            btnSalvar.setEnabled(false);
+
+            combustivelController.limpar();
         });
 
         btnFinalizar.setOnClickListener(v -> {
@@ -90,6 +97,10 @@ public class GasEtaActivity extends AppCompatActivity {
             Combustivel combustivelEtanol = new Combustivel();
             combustivelEtanol.setNomeCombustivel("Etanol");
             combustivelEtanol.setPrecoCombustivel(precoEtanol);
+
+
+
+            combustivelController.salvar(combustivelGasolina, combustivelEtanol);
 
             Toast.makeText(GasEtaActivity.this, "SALVO!", Toast.LENGTH_LONG).show();
         });
