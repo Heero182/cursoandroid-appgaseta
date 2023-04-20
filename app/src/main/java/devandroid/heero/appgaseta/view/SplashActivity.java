@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import devandroid.heero.appgaseta.R;
+import devandroid.heero.appgaseta.database.GasEtaDB;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -24,6 +25,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void comutarTelaSplash() {
         new Handler().postDelayed(() -> {
+            GasEtaDB db = new GasEtaDB(SplashActivity.this);
             Intent intent = new Intent(SplashActivity.this, GasEtaActivity.class);
             startActivity(intent);
         }, TIME_OUT_SPLASH);
