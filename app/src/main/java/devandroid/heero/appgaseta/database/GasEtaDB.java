@@ -1,5 +1,6 @@
 package devandroid.heero.appgaseta.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,8 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class GasEtaDB extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "gaseta.db";
-    public static final int DB_VERSION = 1;
+    private static final String DB_NAME = "gaseta.db";
+    private static final int DB_VERSION = 1;
 
     Cursor cursor;
 
@@ -25,7 +26,7 @@ public class GasEtaDB extends SQLiteOpenHelper {
 
         // DDL CRIAR TABELA COMBUSTIVEL
         String sqlTabelaCombustivel = "CREATE TABLE Combustivel (id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                " nomeCombustivel TEXT, precoCombustivel REAL, dataAtualizao DATETIME )";
+                " nomeCombustivel TEXT, precoCombustivel REAL, dataAtualizacao DATETIME )";
 
         db.execSQL(sqlTabelaCombustivel);
     }
@@ -33,5 +34,9 @@ public class GasEtaDB extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public void salvarObjeto(String tabela, ContentValues dados){
+        db.insert(tabela, null, dados);
     }
 }

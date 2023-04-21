@@ -1,35 +1,35 @@
 package devandroid.heero.appgaseta.controller;
 
-import android.content.SharedPreferences;
+import android.content.ContentValues;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
+import devandroid.heero.appgaseta.database.GasEtaDB;
 import devandroid.heero.appgaseta.model.Combustivel;
 import devandroid.heero.appgaseta.view.GasEtaActivity;
 
-public class CombustivelController {
+public class CombustivelController extends GasEtaDB {
 
-    SharedPreferences preferences;
-    SharedPreferences.Editor dadosCombustiveis;
-
-    public static final String NOME_PREFERENCES = "pref_gaseta";
 
     public CombustivelController(GasEtaActivity gasEtaActivity) {
-        preferences = gasEtaActivity.getSharedPreferences(NOME_PREFERENCES, 0);
-
-        dadosCombustiveis = preferences.edit();
+        super(gasEtaActivity);
     }
 
-    public void salvar(Combustivel combustivelGasolina, Combustivel combustivelEtanol) {
-        dadosCombustiveis.putString("combustivel_1", combustivelGasolina.getNomeCombustivel());
-        dadosCombustiveis.putFloat("preco_gasolina", combustivelGasolina.getPrecoCombustivel().floatValue());
+    public void salvar(Combustivel combustivel) {
 
-        dadosCombustiveis.putString("combustivel_2", combustivelEtanol.getNomeCombustivel());
-        dadosCombustiveis.putFloat("preco_etanol", combustivelEtanol.getPrecoCombustivel().floatValue());
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        ContentValues dados = new ContentValues();
+        dados.put("nomeCombustivel", combustivel.getNomeCombustivel());
+        dados.put("precoCombustivel", combustivel.getPrecoCombustivel());
+        dados.put("dataAtualizacao", dateFormat.format(combustivel.getDataAtualizacao()));
 
-        dadosCombustiveis.apply();
+
+        salvarObjeto("Combustivel", dados);
     }
 
     public void limpar(){
-        dadosCombustiveis.clear();
-        dadosCombustiveis.apply();
+
     }
 }

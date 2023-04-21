@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+
 import devandroid.heero.appgaseta.R;
 import devandroid.heero.appgaseta.apoio.UtilGasEta;
 import devandroid.heero.appgaseta.controller.CombustivelController;
@@ -99,8 +101,13 @@ public class GasEtaActivity extends AppCompatActivity {
             combustivelEtanol.setPrecoCombustivel(precoEtanol);
 
 
+            Date dataPersistencia = new Date();
 
-            combustivelController.salvar(combustivelGasolina, combustivelEtanol);
+            combustivelGasolina.setDataAtualizacao(dataPersistencia);
+            combustivelEtanol.setDataAtualizacao(dataPersistencia);
+
+            combustivelController.salvar(combustivelGasolina);
+            combustivelController.salvar(combustivelEtanol);
 
             Toast.makeText(GasEtaActivity.this, "SALVO!", Toast.LENGTH_LONG).show();
         });
